@@ -1,0 +1,26 @@
+{
+  "name": "frcimg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/French-Cat/FRCimg.git"
+  },
+  "author": "frcat.win",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/French-Cat/FRCimg/issues"
+  },
+  "homepage": "https://github.com/French-Cat/FRCimg#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "simple-json-db": "^2.0.0",
+    "zws": "^0.1.0"
+  }
+}

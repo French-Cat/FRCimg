@@ -1,0 +1,1 @@
+fetch('https://i.smol.win/stats').then(_ => _.json()).then(_ => { document.getElementById("uploaded").innerText = _.totalAmount + " Files Uploaded"; document.getElementById("storage").innerText = _.totalSize + " Of Storage Used"; });
