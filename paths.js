@@ -1,4 +1,4 @@
-const { folderSize, format, db, fileUpload, buildPage, ZWS } = require("./requires.js")
+const { folderSize, format, db, fileUpload, buildPage, ZWS, path } = require("./requires.js")
 
 function main(app, config) {
 
@@ -34,9 +34,13 @@ function main(app, config) {
     res.sendFile(__dirname + '/landing/style.css');
   });
 
+  app.get('/thumb.png', (req, res) => {
+    res.sendFile(__dirname + '/landing/FRC_Play.png');
+  });
+
   app.get('/stats', (req, res) => {
-    const size = format(folderSize("./util", { attributes: ['size'] }).size)
-    const amount = folderSize("./util").children.length
+    const size = format(folderSize("./storage", { attributes: ['size'] }).size)
+    const amount = folderSize("./storage").children.length
     res.send(JSON.stringify({ totalSize: size, totalAmount: amount }))
   });
 
@@ -50,16 +54,15 @@ function main(app, config) {
       return;
     }
     const file = req.files.file;
-    const id = ZWS.encode(Date.now());
+    const id = ZWS.encode(Date.now().toString());
     file.mv(path.join(__dirname, `storage/${file.name}`), (error) => {
       if (error) {
         res.sendStatus(500);
+        console.log(error)
         return;
       }
-      db.set(id, file.name).then(function () {
-        res.send(`https://i.smol.win/${id}`);
-      }
-      );
+      db.set(id, file.name)
+      res.send(`https://i.smol.win/${id}`);
     });
   }
   );
@@ -69,7 +72,7 @@ function main(app, config) {
       res.redirect("/");
       return;
     }
-    res.send(buildPage("https://i.smol.win/raw/" + req.params.id));
+    res.send(buildPage("https://i.smol.win/raw/" + req.params.id, db.get(req.params.id)));
   }
   );
 

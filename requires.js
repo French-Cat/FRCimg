@@ -7,14 +7,16 @@ const JSONdb = require('simple-json-db');
 const db = new JSONdb("uploads.json");
 const fileUpload = require("express-fileupload");
 const ZWS = require("zws");
+const path = require("path");
 
-function buildPage(file_url) {
+function buildPage(file_url, file_name) {
     const desc = quotes[Math.floor(Math.random() * quotes.length)]
+    function url() { if (file_name.includes(".mp4")) { return "https://i.smol.win/thumb.png" } else { return file_url } }
 
     return `<title>FRCimg</title>
     <link rel="icon" href="https://i.smol.win/img.svg" type="image/svg+xml">
     <meta name="title" content="FRCimg">
-    <meta name="description" content="${desc}?">
+    <meta name="description" content="${desc}">
     <meta name="robots" content="index, follow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="English">
@@ -25,19 +27,21 @@ function buildPage(file_url) {
     <meta property="og:title" content="FRCimg">
     <meta property="og:site_name" content="FRCimg">
     <meta property="og:url" content="${file_url}">
-    <meta property="og:description" content="${desc}?">
+    <meta property="og:description" content="${desc}">
     <meta property="og:type" content="website">
     <meta property="og:audio" content="${file_url}">
     <meta property="og:video" content="${file_url}">
-    <meta property="og:image" content="${file_url}">
-    <meta property="twitter:card" content="summary_large">
+    <meta property="og:image" content="${url()}">
+    <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:site" content="@Fr3nch_C4t">
-    <meta property="twitter:description" content="${desc}?">
+    <meta property="twitter:description" content="${desc}">
     <meta property="twitter:title" content="FRCimg">
     <meta property="twitter:image" content="${file_url}">
+    <link type="application/json+oembed" href="${file_url}" />
+    <link rel="video_src" href="${file_url}" />
     <iframe src="${file_url}" style="border:0px" name="FRCimg" scrolling="no" height="100%" width="100%" allowfullscreen></iframe>
     <style>body{margin:0px;}</style>`
 }
 
 
-module.exports = { folderSize, format, config, express, db, fileUpload, buildPage, ZWS }
+module.exports = { folderSize, format, config, express, db, fileUpload, buildPage, ZWS, path }
